@@ -12,31 +12,19 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import FontFaceObserver from 'fontfaceobserver';
 import * as serviceWorker from 'serviceWorker';
 import { history } from 'utils/history';
-
 import 'sanitize.css/sanitize.css';
 
-// Initialize languages
-import './locales/i18n';
-
+// Import root app
 import { App } from 'app';
 
 import { HelmetProvider } from 'react-helmet-async';
 
 import { configureAppStore } from 'store/configureStore';
 
-import { ThemeProvider } from 'styles/theme/ThemeProvider';
-
-// Observe loading of Inter (to remove 'Inter', remove the <link> tag in
-// the index.html file and this observer)
-const openSansObserver = new FontFaceObserver('Inter', {});
-
-// When Inter is loaded, add a font-family using Inter to the body
-openSansObserver.load().then(() => {
-  document.body.classList.add('fontLoaded');
-});
+// Initialize languages
+import './locales/i18n';
 
 // Create redux store with history
 const store = configureAppStore(history);
@@ -48,17 +36,14 @@ interface Props {
 const ConnectedApp = ({ Component }: Props) => (
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider>
-        <ConnectedRouter history={history}>
-          <HelmetProvider>
-            <Component />
-          </HelmetProvider>
-        </ConnectedRouter>
-      </ThemeProvider>
+      <ConnectedRouter history={history}>
+        <HelmetProvider>
+          <Component />
+        </HelmetProvider>
+      </ConnectedRouter>
     </Provider>
   </React.StrictMode>
 );
-
 const render = (Component: typeof App) => {
   ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
 };

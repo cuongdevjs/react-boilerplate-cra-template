@@ -4,20 +4,16 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './en/translation.json';
-import de from './de/translation.json';
 import { ConvertedToFunctionsType } from './types';
 
 const translationsJson = {
   en: {
     translation: en,
   },
-  de: {
-    translation: de,
-  },
 };
 
 export type TranslationResource = typeof en;
-export type LanguageKey = keyof TranslationResource;
+export type LanguageKeys = keyof TranslationResource;
 
 export const translations: ConvertedToFunctionsType<TranslationResource> = {} as any;
 
@@ -50,6 +46,7 @@ export const i18n = i18next
   .init(
     {
       resources: translationsJson,
+
       fallbackLng: 'en',
       debug:
         process.env.NODE_ENV !== 'production' &&
