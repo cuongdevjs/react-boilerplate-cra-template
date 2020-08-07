@@ -101,6 +101,12 @@ export const containerGenerator: PlopGenerator = {
         templateFile: './container/index.tsx.hbs',
         abortOnFail: true,
       },
+      {
+        type: 'add',
+        path: `${containerPath}/components/index.tsx`,
+        templateFile: './container/index.components.tsx.hbs',
+        abortOnFail: true,
+      },
     ];
 
     if (data.wantSlice) {
@@ -137,6 +143,7 @@ export const containerGenerator: PlopGenerator = {
         abortOnFail: true,
       });
     }
+
     if (data.wantSaga) {
       actions.push({
         type: 'add',
@@ -145,11 +152,21 @@ export const containerGenerator: PlopGenerator = {
         abortOnFail: true,
       });
     }
+
     if (data.wantLoadable) {
       actions.push({
         type: 'add',
         path: `${containerPath}/Loadable.ts`,
         templateFile: './container/loadable.ts.hbs',
+        abortOnFail: true,
+      });
+    }
+
+    if (data.wantStyledComponents) {
+      actions.push({
+        type: 'add',
+        path: `${containerPath}/styled.ts`,
+        templateFile: './container/styled.ts.hbs',
         abortOnFail: true,
       });
     }

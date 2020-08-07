@@ -18,9 +18,7 @@ import { useTranslation } from 'react-i18next';
 {{#if wantSlice}}
 import { useSelector, useDispatch } from 'react-redux';
 {{/if}}
-{{#if wantStyledComponents}}
-import styled from 'styled-components/macro';
-{{/if}}
+
 
 {{#if wantSlice}}
 {{#if wantSaga}}
@@ -39,6 +37,9 @@ import { select{{ properCase ComponentName }} } from './selectors';
 {{/if}}
 {{#if wantSaga}}
 import { {{ camelCase ComponentName }}Saga } from './saga';
+{{/if}}
+{{#if wantStyledComponents}}
+import { {{ properCase ComponentName }}Wrapper } from './styled';
 {{/if}}
 
 interface Props {}
@@ -81,7 +82,7 @@ return (
   </Helmet>
   {{/if}}
   {{#if wantStyledComponents}}
-  <Div>
+  <{{ properCase ComponentName }}Wrapper>
     {{else}}
     <div>
       {{/if}}
@@ -89,7 +90,7 @@ return (
       {t('')}
       {{/if}}
       {{#if wantStyledComponents}}
-    </Div>
+    </{{ properCase ComponentName }}Wrapper>
     {{else}}
   </div>
   {{/if}}
@@ -100,8 +101,4 @@ return (
 });
 {{else}}
 };
-{{/if}}
-
-{{#if wantStyledComponents}}
-const Div = styled.div``;
 {{/if}}

@@ -88,6 +88,15 @@ export const componentGenerator: PlopGenerator = {
       });
     }
 
+    if (data.wantStyledComponents) {
+      actions.push({
+        type: 'add',
+        path: `${containerPath}/styled.ts`,
+        templateFile: './component/styled.ts.hbs',
+        abortOnFail: true,
+      });
+    }
+
     if (data.wantTests) {
       actions.push({
         type: 'add',
