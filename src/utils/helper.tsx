@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 import { objectType } from 'types';
 
 const AVATAR_COLORS = [
@@ -10,22 +10,6 @@ const AVATAR_COLORS = [
 ];
 
 const AVATAR_OPACITY = 0.4;
-
-type NotificationPlacement =
-  | 'topLeft'
-  | 'topRight'
-  | 'bottomLeft'
-  | 'bottomRight';
-
-export const redirectToMeeting = (
-  domain: string,
-  roomCode: string,
-  roomToken: string,
-  target: string = '_self',
-) => {
-  const url = domain + '/' + roomCode + '?jwt=' + roomToken;
-  window.open(url, target);
-};
 
 export const cleanObject = <T extends objectType>(object: T) => {
   const newObj = Object.assign({}, object);
@@ -39,24 +23,6 @@ export const cleanObject = <T extends objectType>(object: T) => {
 export const isEmail = (email: string) => {
   const re: RegExp = /\S+@\S+\.\S+/;
   return re.test(String(email).toLowerCase());
-};
-
-export const isMobileAndTablet = () => {
-  // NOTE: case special: Ipad Pro
-  var ratio = window.devicePixelRatio || 1;
-  var screen = {
-    width: window.screen.width * ratio,
-    height: window.screen.height * ratio,
-  };
-  return (
-    navigator.userAgent.match(
-      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i,
-    ) ||
-    (screen.width === 2048 && screen.height === 2732) ||
-    (screen.width === 2732 && screen.height === 2048) ||
-    (screen.width === 1536 && screen.height === 2048) ||
-    (screen.width === 2048 && screen.height === 1536)
-  );
 };
 
 export const getInitialLetterName = (s: string) => {
@@ -78,22 +44,4 @@ export function getAvatarColor(initials?: string) {
     colorIndex = nameHash % AVATAR_COLORS.length;
   }
   return `rgba(${AVATAR_COLORS[colorIndex]}, ${AVATAR_OPACITY})`;
-}
-
-export function _decodeRoomURI(url: string) {
-  let roomUrl = url;
-
-  // we want to decode urls when the do not contain space, ' ', which url encoded is %20
-  if (roomUrl && !roomUrl.includes('%20')) {
-    roomUrl = decodeURI(roomUrl);
-  }
-
-  // Handles a special case where the room name has % encoded, the decoded will have
-  // % followed by a char (non-digit) which is not a valid URL and room name ... so we do not
-  // want to show this decoded
-  if (roomUrl.match(/.*%[^\d].*/)) {
-    return url;
-  }
-
-  return roomUrl;
 }

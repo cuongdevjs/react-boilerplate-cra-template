@@ -29,7 +29,7 @@ import './locales/i18n';
 import './utils/axios';
 
 // Create redux store with history
-const store = configureAppStore(history);
+export const store = configureAppStore(history);
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 interface Props {
@@ -66,4 +66,4 @@ render(App);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();

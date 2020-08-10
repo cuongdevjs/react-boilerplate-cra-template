@@ -5,9 +5,10 @@ import { getItem, setItem, removeItem } from 'utils/localStorage';
 import { LoginPage } from 'app/containers/LoginPage/Loadable';
 import { Dashboard } from 'app/containers/Dashboard/Loadable';
 import { LayoutProtectedRoute } from 'app/containers/LayoutProtectedRoute/Loadable';
+import { TYPE_LOCAL_STORAGE } from '../constants';
 
-const URL_REDIRECT = 'admin_url_redirect';
-const TOKEN = 'admin-token';
+const URL_REDIRECT = TYPE_LOCAL_STORAGE.URL_REDIRECT;
+const TOKEN = TYPE_LOCAL_STORAGE.TOKEN;
 
 function redirect(location) {
   return class extends React.Component {

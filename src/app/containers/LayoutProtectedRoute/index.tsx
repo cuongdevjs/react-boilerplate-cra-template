@@ -12,6 +12,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Header } from 'app/components/Header/Loadable';
 import { DrawerMenu } from 'app/components/DrawerMenu/Loadable';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { selectIsLogged } from '../App/selectors';
 
 interface Props {}
 
@@ -26,8 +28,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const LayoutProtectedRoute = memo((props: Props) => {
+  const isLogged = useSelector(selectIsLogged);
   const { routes } = useRouter({
-    isLogged: true,
+    isLogged,
     isFilterProtectedRoute: true,
   });
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);

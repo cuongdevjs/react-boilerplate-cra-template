@@ -4,29 +4,28 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { reducer, sliceKey } from './slice';
-import { selectLoginPage } from './selectors';
+import { reducer, sliceKey, login } from './slice';
 import { loginPageSaga } from './saga';
 import { LoginPageWrapper } from './styled';
 
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import { green } from '@material-ui/core/colors';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Form } from './components';
+import { INIT_FORM_LOGIN } from './constants';
+import { selectIsLoading } from './selectors';
 
 function Copyright() {
   return (
@@ -72,6 +71,14 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 interface Props {}
@@ -79,13 +86,12 @@ interface Props {}
 export const LoginPage = memo((props: Props) => {
   useInjectSaga({ key: sliceKey, saga: loginPageSaga });
   useInjectReducer({ key: sliceKey, reducer: reducer });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const loginPage = useSelector(selectLoginPage);
+  const loading = useSelector(selectIsLoading);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
-
   const classes = useStyles();
+
+  const onLogin = useCallback(values => dispatch(login(values)), [dispatch]);
 
   return (
     <>
@@ -96,12 +102,12 @@ export const LoginPage = memo((props: Props) => {
       <LoginPageWrapper>
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
+          <Grid item xs={false} sm={6} md={8} className={classes.image} />
           <Grid
             item
             xs={12}
-            sm={8}
-            md={5}
+            sm={6}
+            md={4}
             component={Paper}
             elevation={6}
             square
@@ -113,46 +119,15 @@ export const LoginPage = memo((props: Props) => {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Sign In
-                </Button>
-                <Box mt={5}>
-                  <Copyright />
-                </Box>
-              </form>
+              <Form
+                loading={loading}
+                initialValues={INIT_FORM_LOGIN}
+                classes={classes}
+                onSubmitForm={onLogin}
+              />
+              <Box mt={5}>
+                <Copyright />
+              </Box>
             </div>
           </Grid>
         </Grid>

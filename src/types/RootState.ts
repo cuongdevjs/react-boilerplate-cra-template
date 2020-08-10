@@ -9,9 +9,9 @@ import { DashboardState } from 'app/containers/Dashboard/types';
   You have to declare them here manually
 */
 export interface RootState {
+  app?: AppState;
   router?: RouterState;
   loginPage?: LoginPageState;
-  app?: AppState;
   dashboard?: DashboardState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

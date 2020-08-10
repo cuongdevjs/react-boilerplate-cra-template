@@ -4,14 +4,14 @@ import axios, {
   AxiosInstance,
   AxiosPromise,
 } from 'axios';
-import { getItem, clearAllLS, setItem } from 'utils/localStorage';
+import { getItem } from 'utils/localStorage';
 import Qs from 'qs';
-// import { openNotificationWithIcon } from './helper';
-// import { store } from 'App';
-// import { logout } from 'store/actions/actionAuth';
+import { TYPE_LOCAL_STORAGE } from 'utils/constants';
+import { store } from '../';
+import { actions } from 'app/containers/App/slice';
 
 const onSuccessInterceptorRequest = async config => {
-  const token = await getItem('meeting-token');
+  const token = await getItem(TYPE_LOCAL_STORAGE.TOKEN);
   if (token) config.headers['api-token'] = `${token}`;
   config.paramsSerializer = (params: any) =>
     Qs.stringify(params, {
@@ -25,23 +25,15 @@ const onErrorInterceptorRequest = (error: AxiosError) => Promise.reject(error);
 const onErrorInterceptorResponse = (error: AxiosError) => {
   if (error.response && error.response.status) {
     if (error.response.status !== 200) {
-      // openNotificationWithIcon(
-      //   'error',
-      //   'Rất tiếc!',
-      //   error.response.data,
-      //   3,
-      //   'topRight',
-      // );
+      store.dispatch(
+        actions.setOptionNotification({
+          type: 'error',
+          message: error.response?.data?.message || 'Lỗi',
+        }),
+      );
+      store.dispatch(actions.changeIsOpenNotification(true));
       if (error.response.status === 401) {
-        const meeting_url_redirect = getItem('meeting_url_redirect');
-        const meeting_is_refuseDownloadApp = getItem(
-          'meeting_is_refuseDownloadApp',
-        );
-        clearAllLS();
-        meeting_url_redirect &&
-          setItem('meeting_url_redirect', meeting_url_redirect);
-        meeting_is_refuseDownloadApp &&
-          setItem('meeting_is_refuseDownloadApp', meeting_is_refuseDownloadApp);
+        store.dispatch(actions.logout());
       }
     }
   }
