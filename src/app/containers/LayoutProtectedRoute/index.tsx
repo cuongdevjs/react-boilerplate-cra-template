@@ -30,16 +30,12 @@ export const LayoutProtectedRoute = memo((props: Props) => {
     isLogged: true,
     isFilterProtectedRoute: true,
   });
-
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
   const classes = useStyles();
 
   return (
     <LayoutProtectedRouteWrapper>
-      <Header
-        isOpenSideMenu={isOpenSideMenu}
-        handleIsOpenSideMenu={() => setIsOpenSideMenu(!isOpenSideMenu)}
-      />
+      <Header onToggleSideMenu={() => setIsOpenSideMenu(!isOpenSideMenu)} />
       <DrawerMenu
         isOpenSideMenu={isOpenSideMenu}
         onCloseSideMenu={() => setIsOpenSideMenu(false)}

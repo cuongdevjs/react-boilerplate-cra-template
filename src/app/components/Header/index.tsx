@@ -18,11 +18,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import clsx from 'clsx';
 
 interface Props {
-  isOpenSideMenu: boolean;
-  handleIsOpenSideMenu: () => void;
+  onToggleSideMenu: () => void;
 }
 
-const drawerWidth = 200;
+// const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -42,67 +41,65 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
+  // appBarShift: {
+  //   marginLeft: drawerWidth,
+  //   width: `calc(100% - ${drawerWidth}px)`,
+  //   transition: theme.transitions.create(['width', 'margin'], {
+  //     easing: theme.transitions.easing.sharp,
+  //     duration: theme.transitions.duration.enteringScreen,
+  //   }),
+  // },
   menuButton: {
     marginRight: 36,
   },
-  menuButtonHidden: {
-    display: 'none',
-  },
+  // menuButtonHidden: {
+  //   display: 'none',
+  // },
   title: {
     flexGrow: 1,
   },
 }));
 
-export const Header = memo(
-  ({ isOpenSideMenu, handleIsOpenSideMenu }: Props) => {
-    const classes = useStyles();
-    return (
-      <HeaderWrapper>
-        <AppBar
-          position="absolute"
-          className={clsx(
-            classes.appBar,
-            isOpenSideMenu && classes.appBarShift,
-          )}
-        >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleIsOpenSideMenu}
-              className={clsx(
-                classes.menuButton,
-                isOpenSideMenu && classes.menuButtonHidden,
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </HeaderWrapper>
-    );
-  },
-);
+export const Header = memo(({ onToggleSideMenu }: Props) => {
+  const classes = useStyles();
+  return (
+    <HeaderWrapper>
+      <AppBar
+        position="absolute"
+        className={clsx(
+          classes.appBar,
+          // isOpenSideMenu && classes.appBarShift,
+        )}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={onToggleSideMenu}
+            className={clsx(
+              classes.menuButton,
+              // isOpenSideMenu && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            Dashboard
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </HeaderWrapper>
+  );
+});
