@@ -54,11 +54,11 @@ export function {{ properCase ComponentName }}(props: Props) {
 useInjectReducer({ key: sliceKey, reducer: reducer });
 {{/if}}
 {{#if wantSaga}}
-  {{#if wantSlice}}
-  useInjectSaga({ key: sliceKey, saga: {{ camelCase ComponentName }}Saga });
-  {{else}}
-  useInjectSaga({ key: '{{ camelCase ComponentName }}', saga: {{ camelCase ComponentName }}Saga });
-  {{/if}}
+{{#if wantSlice}}
+useInjectSaga({ key: sliceKey, saga: {{ camelCase ComponentName }}Saga });
+{{else}}
+useInjectSaga({ key: '{{ camelCase ComponentName }}', saga: {{ camelCase ComponentName }}Saga });
+{{/if}}
 {{/if}}
 
 {{#if wantSlice}}
@@ -88,10 +88,12 @@ return (
       {{/if}}
       {{#if wantTranslations}}
       {t('')}
+      {{else}}
+      {{ camelCase ComponentName }}
       {{/if}}
       {{#if wantStyledComponents}}
-    </{{ properCase ComponentName }}Wrapper>
-    {{else}}
+  </{{ properCase ComponentName }}Wrapper>
+  {{else}}
   </div>
   {{/if}}
 </>

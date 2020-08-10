@@ -31,6 +31,8 @@
     "styled-components"
   ],
   "scripts": {
+    "prebuild": "npm run generate-build-version",
+    "generate-build-version": "node generate-build-version",
     "start": "react-scripts start",
     "start:prod": "npm run build && serve -s build",
     "build": "react-scripts build",
@@ -85,8 +87,13 @@
     }
   },
   "dependencies": {
+    "@material-ui/core": "4.11.0",
+    "@material-ui/icons": "4.9.1",
     "@reduxjs/toolkit": "1.3.2",
+    "axios": "0.19.2",
+    "clsx": "1.1.1",
     "connected-react-router": "6.8.0",
+    "file-saver": "2.0.2",
     "fontfaceobserver": "2.1.0",
     "history": "4.10.1",
     "i18next": "19.3.4",
@@ -102,7 +109,8 @@
     "redux-saga": "1.1.3",
     "redux-saga-routines": "3.2.3",
     "sanitize.css": "11.0.0",
-    "styled-components": "5.0.1"
+    "styled-components": "5.0.1",
+    "xlsx": "0.16.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.1.1",

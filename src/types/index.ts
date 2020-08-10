@@ -1,3 +1,4 @@
 import { RootState } from './RootState';
+import { objectType } from './customTypes';
 
-export type { RootState };
+export type { RootState, objectType };

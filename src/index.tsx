@@ -17,7 +17,7 @@ import { history } from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
-import { App } from 'app';
+import { App } from 'app/containers/App/Loadable';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -25,6 +25,8 @@ import { configureAppStore } from 'store/configureStore';
 
 // Initialize languages
 import './locales/i18n';
+
+import './utils/axios';
 
 // Create redux store with history
 const store = configureAppStore(history);
@@ -34,15 +36,15 @@ interface Props {
   Component: typeof App;
 }
 const ConnectedApp = ({ Component }: Props) => (
-  <React.StrictMode>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <HelmetProvider>
-          <Component />
-        </HelmetProvider>
-      </ConnectedRouter>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <HelmetProvider>
+        <Component />
+      </HelmetProvider>
+    </ConnectedRouter>
+  </Provider>
+  // </React.StrictMode>
 );
 const render = (Component: typeof App) => {
   ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
@@ -52,9 +54,9 @@ if (module.hot) {
   // Hot reloadable translation json files and app
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept(['./app', './locales/i18n'], () => {
+  module.hot.accept(['./app/containers/App/Loadable', './locales/i18n'], () => {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    const App = require('./app').App;
+    const App = require('./app/containers/App/Loadable').App;
     render(App);
   });
 }
@@ -64,4 +66,4 @@ render(App);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
